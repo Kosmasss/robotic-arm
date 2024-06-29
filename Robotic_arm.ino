@@ -8,7 +8,7 @@ Servo servo3;
 
 const int joystickXPin = A0;
 const int joystickYPin = A1;
-const int buttonPin = 6;
+const int buttonPin = 2;
 const int servo1Pin = 9;
 const int servo2Pin = 10;
 const int servo3Pin = 11;
@@ -20,6 +20,7 @@ int servo3Pos = 90;
 
 
 bool buttonPressed = false;
+int buttonState = 0 ;
 
 void setup() {
   
@@ -32,8 +33,8 @@ void setup() {
   servo2.write(servo2Pos);
   servo3.write(servo3Pos);
 
-  
-  pinMode(buttonPin, INPUT);
+  int buttonState = LOW ;
+  pinMode(buttonPin, INPUT_PULLUP);
   Serial.begin(9600);
 }
 
@@ -43,26 +44,25 @@ void loop() {
   int joystickYValue = analogRead(joystickYPin);
 
 
-  servo1Pos = map(joystickXValue, 0, 1023, 0, 180);
-  servo2Pos = map(joystickYValue, 0, 1023, 0, 180);
-
-  
-  servo1.write(servo1Pos);
-  servo2.write(servo2Pos);
-
-  
-  if (digitalRead(buttonPin) == HIGH && !buttonPressed) {
+  if (digitalRead(buttonPin) == LOW) {
     buttonPressed = true;
     // Κίνηση του τρίτου σερβο
-    servo3Pos = (servo3Pos == 90) ? 0 : 90; 
+    servo3Pos = map(joystickYValue, 0, 1023, 0, 180);
     servo3.write(servo3Pos);
   }
 
  
-  if (digitalRead(buttonPin) == LOW && buttonPressed) {
-    buttonPressed = false;
+  if (digitalRead(buttonPin) == HIGH ) {
+   servo1Pos = map(joystickXValue, 0, 1023, 0, 180);
+   servo2Pos = map(joystickYValue, 0, 1023, 0, 180);
+   servo3Pos = map(joystickXValue, 0, 0, 0, 0);
+
+   servo1.write(servo1Pos);
+   servo2.write(servo2Pos);
+   servo3.write(servo3Pos);
+
   }
 
   
-  delay(15);
+  delay(5);
 }
