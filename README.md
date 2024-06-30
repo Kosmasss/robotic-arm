@@ -14,3 +14,5 @@ Assemble:
 2) The software is flashed using Arduino IDE and PLATFORM.IO.
 
 3) The Arm assembly process includes the three servos ,12 bolts and the 3Dprinted parts (arm,sevohorn).When building try to follow the CAD files.
+   NOTE: To open and print the parts you need to have a CAD software (fusion 360 for example)
+    
